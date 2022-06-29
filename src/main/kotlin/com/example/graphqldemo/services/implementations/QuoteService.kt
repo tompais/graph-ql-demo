@@ -4,7 +4,7 @@ import com.example.graphqldemo.clients.rest.quote.interfaces.IQuoteClient
 import com.example.graphqldemo.graphql.types.Quote
 import com.example.graphqldemo.services.interfaces.IQuoteService
 import com.example.graphqldemo.utils.FlowUtils
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service
 @Service
 class QuoteService(
     private val quoteClients: List<IQuoteClient>,
-    private val quoteClientMap: Map<Quote.QuoteType, IQuoteClient>
+    private val quoteClientMap: Map<Quote.QuoteType, IQuoteClient>,
+    private val ioDispatcher: CoroutineDispatcher
 ) : IQuoteService {
-    private val ioDispatcher = Dispatchers.IO
 
     @FlowPreview
     override fun getQuotes(limit: UInt): Flow<Quote> =
