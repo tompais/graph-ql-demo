@@ -1,0 +1,42 @@
+graphql:
+  packages: "com.example.graphqldemo.graphql"
+  sdl:
+    enabled: true
+  playground:
+    enabled: true
+  batching:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+server:
+  error:
+    include-exception: true
+    include-message: always
+    include-stacktrace: always
+    include-binding-errors: always
+clients:
+  rest:
+    quote:
+      anime:
+        base-url: https://animechan.vercel.app/api
+        get-quotes-path: /quotes
+        get-random-quote-path: /random
+      programming:
+        base-url: https://programming-quotes-api.herokuapp.com
+        get-quotes-path: /quotes
+        get-random-quote-path: /quotes/random
+      zen:
+        base-url: https://zenquotes.io/api
+        get-quotes-path: /quotes
+        get-random-quote-path: /random
+logging:
+  level:
+    reactor.netty.http.client: DEBUG
