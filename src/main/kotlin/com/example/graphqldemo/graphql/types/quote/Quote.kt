@@ -1,5 +1,6 @@
 package com.example.graphqldemo.graphql.types.quote
 
+import com.expediagroup.graphql.generator.annotations.GraphQLName
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonValue
 import javax.validation.constraints.NotBlank
@@ -13,7 +14,8 @@ data class Quote(
     @JsonAlias("character", "a")
     val author: String
 ) {
-    enum class QuoteType {
+    @GraphQLName("QuoteType")
+    enum class Type {
         ANIME,
         PROGRAMMING,
         ZEN;
@@ -24,7 +26,7 @@ data class Quote(
         companion object {
             private val VALUES = values()
 
-            fun getRandomType(): QuoteType = VALUES.random()
+            fun getRandomType(): Type = VALUES.random()
         }
     }
 }

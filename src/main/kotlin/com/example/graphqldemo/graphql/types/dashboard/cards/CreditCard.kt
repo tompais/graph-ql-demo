@@ -1,6 +1,6 @@
 package com.example.graphqldemo.graphql.types.dashboard.cards
 
-import com.example.graphqldemo.graphql.types.dashboard.cards.Card.CardType.CREDIT
+import com.example.graphqldemo.graphql.types.dashboard.cards.Card.Type.CREDIT
 import com.fasterxml.jackson.annotation.JsonValue
 import java.math.BigDecimal
 import java.time.LocalDate

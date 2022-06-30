@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient
 abstract class BaseQuoteClient(
     webClient: WebClient,
     protected val quoteProperties: BaseQuoteProperties,
-    val type: Quote.QuoteType
+    val type: Quote.Type
 ) : IQuoteClient, BaseRestClient(webClient) {
     override fun getQuotes(limit: UInt): Flow<Quote> =
         getQuotes(quoteProperties.getQuotesPath).take(limit.toInt())

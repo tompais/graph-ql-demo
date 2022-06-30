@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.toList
 
 object FlowUtils {
-    fun <T> shuffleFlow(f: Flow<T>): Flow<T> = flow {
-        emitAll(f.toList().shuffled().asFlow())
-    }.flowOn(Dispatchers.Default)
+    fun <T> Flow<T>.shuffled(): Flow<T> =
+        this.let { f -> flow { emitAll(f.toList().shuffled().asFlow()) }.flowOn(Dispatchers.Default) }
 }

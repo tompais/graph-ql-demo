@@ -3,7 +3,7 @@ package com.example.graphqldemo.services.implementations
 import com.example.graphqldemo.clients.rest.quote.interfaces.IQuoteClient
 import com.example.graphqldemo.graphql.types.quote.Quote
 import com.example.graphqldemo.services.interfaces.IQuoteService
-import com.example.graphqldemo.utils.FlowUtils
+import com.example.graphqldemo.utils.FlowUtils.shuffled
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -17,25 +17,25 @@ import org.springframework.stereotype.Service
 @Service
 class QuoteService(
     private val quoteClients: List<IQuoteClient>,
-    private val quoteClientMap: Map<Quote.QuoteType, IQuoteClient>,
+    private val quoteClientMap: Map<Quote.Type, IQuoteClient>,
     private val ioDispatcher: CoroutineDispatcher
 ) : IQuoteService {
 
     @FlowPreview
     override fun getQuotes(limit: UInt): Flow<Quote> =
-        getQuotesOfAllTypes(limit).let(FlowUtils::shuffleFlow).take(limit.toInt())
+        getQuotesOfAllTypes(limit).shuffled().take(limit.toInt())
 
     override suspend fun getRandomQuote(): Quote = withContext(ioDispatcher) {
         getRandomQuoteClient().getRandomQuote()
     }
 
-    private fun getRandomQuoteClient(): IQuoteClient = getQuoteClientByType(Quote.QuoteType.getRandomType())
+    private fun getRandomQuoteClient(): IQuoteClient = getQuoteClientByType(Quote.Type.getRandomType())
 
-    private fun getQuoteClientByType(type: Quote.QuoteType): IQuoteClient = quoteClientMap[type]!!
+    private fun getQuoteClientByType(type: Quote.Type): IQuoteClient = quoteClientMap[type]!!
 
-    override suspend fun getQuoteByType(type: Quote.QuoteType): Quote = getQuoteClientByType(type).getRandomQuote()
+    override suspend fun getQuoteByType(type: Quote.Type): Quote = getQuoteClientByType(type).getRandomQuote()
 
-    override fun getQuotesByType(type: Quote.QuoteType, limit: UInt): Flow<Quote> =
+    override fun getQuotesByType(type: Quote.Type, limit: UInt): Flow<Quote> =
         getQuoteClientByType(type).getQuotes(limit).flowOn(ioDispatcher)
 
     @FlowPreview

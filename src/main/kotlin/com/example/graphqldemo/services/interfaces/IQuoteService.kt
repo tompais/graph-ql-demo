@@ -8,6 +8,6 @@ interface IQuoteService {
     @FlowPreview
     fun getQuotes(limit: UInt): Flow<Quote>
     suspend fun getRandomQuote(): Quote
-    suspend fun getQuoteByType(type: Quote.QuoteType): Quote
-    fun getQuotesByType(type: Quote.QuoteType, limit: UInt): Flow<Quote>
+    suspend fun getQuoteByType(type: Quote.Type): Quote
+    fun getQuotesByType(type: Quote.Type, limit: UInt): Flow<Quote>
 }

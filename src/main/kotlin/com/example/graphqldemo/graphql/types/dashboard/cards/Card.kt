@@ -1,5 +1,6 @@
 package com.example.graphqldemo.graphql.types.dashboard.cards
 
+import com.expediagroup.graphql.generator.annotations.GraphQLName
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
@@ -15,11 +16,12 @@ import java.time.LocalDate
     JsonSubTypes.Type(value = CreditCard::class, name = "creditCard")
 )
 abstract class Card(
-    val type: CardType,
+    val type: Type,
     val dateFrom: LocalDate,
     val dateTo: LocalDate
 ) {
-    enum class CardType {
+    @GraphQLName("CardType")
+    enum class Type {
         DEBIT,
         CREDIT;
 

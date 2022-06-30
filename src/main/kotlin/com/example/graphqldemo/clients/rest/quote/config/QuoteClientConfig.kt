@@ -29,5 +29,5 @@ class QuoteClientConfig(
     @Bean
     fun quoteClientMap(
         quoteClients: List<BaseQuoteClient>
-    ): Map<Quote.QuoteType, IQuoteClient> = quoteClients.associateBy(BaseQuoteClient::type)
+    ): Map<Quote.Type, IQuoteClient> = quoteClients.associateBy(BaseQuoteClient::type)
 }

@@ -26,11 +26,11 @@ class QuoteQuery(private val quoteService: IQuoteService) : Query {
     suspend fun getRandomQuote(): Quote = quoteService.getRandomQuote()
 
     @GraphQLName("quoteByType")
-    suspend fun getQuoteByType(type: Quote.QuoteType): Quote = quoteService.getQuoteByType(type)
+    suspend fun getQuoteByType(type: Quote.Type): Quote = quoteService.getQuoteByType(type)
 
     @GraphQLName("quotesByType")
     suspend fun getQuotesByType(
-        type: Quote.QuoteType,
+        type: Quote.Type,
         @Positive
         @Max(10)
         limit: Int? = 10
