@@ -31,7 +31,7 @@ class QuoteService(
 
     private fun getRandomQuoteClient(): IQuoteClient = getQuoteClientByType(Quote.Type.getRandomType())
 
-    private fun getQuoteClientByType(type: Quote.Type): IQuoteClient = quoteClientMap[type]!!
+    private fun getQuoteClientByType(type: Quote.Type): IQuoteClient = quoteClientMap.getValue(type)
 
     override suspend fun getQuoteByType(type: Quote.Type): Quote = getQuoteClientByType(type).getRandomQuote()
 
