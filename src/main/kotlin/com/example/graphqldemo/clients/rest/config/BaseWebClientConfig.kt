@@ -5,9 +5,7 @@ import io.netty.channel.ChannelOption.CONNECT_TIMEOUT_MILLIS
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.timeout.ReadTimeoutHandler
 import io.netty.handler.timeout.WriteTimeoutHandler
-import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.http.codec.json.Jackson2JsonEncoder
@@ -26,7 +24,12 @@ abstract class BaseWebClientConfig {
     protected fun buildWebClient(baseUrl: String, mapper: ObjectMapper, timeout: Long = TIMEOUT): WebClient =
         WebClient.builder()
             .baseUrl(baseUrl)
-            .defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+            .defaultHeaders { httpHeaders ->
+                httpHeaders.apply {
+                    accept = listOf(APPLICATION_JSON)
+                    contentType = APPLICATION_JSON
+                }
+            }
             .clientConnector(ReactorClientHttpConnector(buildHttpClient(timeout)))
             .exchangeStrategies(buildExchangeStrategies(mapper))
             .build()

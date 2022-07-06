@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: test
+graphql:
+  packages: "com.example.graphqldemo.graphql"
+server:
+  error:
+    include-exception: true
+    include-message: always
+    include-stacktrace: always
+    include-binding-errors: always
+  port: 8081
+clients:
+  rest:
+    quote:
+      anime:
+        base-url: http://localhost:8082
+        get-quotes-path: /quotes
+        get-random-quote-path: /random
+      programming:
+        base-url: http://localhost:8082
+        get-quotes-path: /quotes
+        get-random-quote-path: /quotes/random
+      zen:
+        base-url: http://localhost:8082
+        get-quotes-path: /quotes
+        get-random-quote-path: /random
+logging:
+  level:
+    reactor.netty.http.client: DEBUG

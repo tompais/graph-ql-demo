@@ -23,6 +23,7 @@ class MapperConfig {
     @Primary
     fun objectMapper(): ObjectMapper = jacksonMapperBuilder()
         .addModule(JavaTimeModule())
+        .findAndAddModules()
         .serializationInclusion(NON_NULL)
         .serializationInclusion(NON_EMPTY)
         .enable(WRITE_ENUMS_USING_TO_STRING)
