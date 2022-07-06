@@ -10,16 +10,21 @@ import java.time.LocalDate
 
 @Service
 class DashboardService(private val mathContext: MathContext) : IDashboardService {
-    override fun getDashboard(): Dashboard {
-        val dateFrom = LocalDate.now()
-        val dateTo = dateFrom.plusYears(1)
-
-        return Dashboard(
-            listOf(
-                DebitCard(1000f.toBigDecimal(mathContext), dateFrom, dateTo),
-                CreditCard(CreditCard.Company.VISA, 1500f.toBigDecimal(mathContext), dateFrom, dateTo),
-                CreditCard(CreditCard.Company.AMERICAN_EXPRESS, 1600f.toBigDecimal(mathContext), dateFrom, dateTo)
+    override fun getDashboard(): Dashboard = LocalDate.now().let { dateFrom ->
+        dateFrom.plusYears(1).let { dateTo ->
+            Dashboard(
+                listOf(
+                    DebitCard(1000f.toBigDecimal(mathContext), dateFrom, dateTo),
+                    CreditCard(CreditCard.Company.VISA, 1500f.toBigDecimal(mathContext), dateFrom, dateTo),
+                    CreditCard(
+                        CreditCard.Company.AMERICAN_EXPRESS,
+                        1600f.toBigDecimal(mathContext),
+                        dateFrom,
+                        dateTo
+                    )
+                )
             )
-        )
+        }
+
     }
 }
