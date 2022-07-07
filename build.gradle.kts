@@ -56,6 +56,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.4")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
     ktlint("com.pinterest:ktlint:0.46.0") {
         attributes {
             attribute(BUNDLING_ATTRIBUTE, objects.named(EXTERNAL))

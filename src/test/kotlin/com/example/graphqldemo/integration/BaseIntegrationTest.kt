@@ -1,6 +1,5 @@
 package com.example.graphqldemo.integration
 
-import com.example.graphqldemo.utils.MockUtils.mockQuote
 import com.example.graphqldemo.utils.TestConstant
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.junit5.MockKExtension
@@ -66,7 +65,7 @@ abstract class BaseIntegrationTest {
 
     private fun Any.toJson(): String = mapper.writeValueAsString(this)
 
-    private fun mockRestClientRequest(
+    protected fun mockRestClientRequest(
         body: Any,
         contentType: MediaType = APPLICATION_JSON,
         httpStatus: HttpStatus = OK
@@ -74,6 +73,4 @@ abstract class BaseIntegrationTest {
         MockResponse().setHeader(CONTENT_TYPE, contentType.toString()).setBody(body.toJson())
             .setResponseCode(httpStatus.value())
     )
-
-    fun mockGetQuotesRequest() = mockRestClientRequest(mockQuote())
 }
