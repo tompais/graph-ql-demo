@@ -25,6 +25,5 @@ class DashboardService(private val mathContext: MathContext) : IDashboardService
                 )
             )
         }
-
     }
 }

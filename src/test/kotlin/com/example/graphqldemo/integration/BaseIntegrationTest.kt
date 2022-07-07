@@ -20,8 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.OK
+import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -64,8 +64,14 @@ abstract class BaseIntegrationTest {
         .status(OK)
         .and()
 
-    private fun mockRestClientRequest(body: Any, httpStatus: HttpStatus = OK) = mockWebServer.enqueue(
-        MockResponse().setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE).setBody(mapper.writeValueAsString(body))
+    private fun Any.toJson(): String = mapper.writeValueAsString(this)
+
+    private fun mockRestClientRequest(
+        body: Any,
+        contentType: MediaType = APPLICATION_JSON,
+        httpStatus: HttpStatus = OK
+    ) = mockWebServer.enqueue(
+        MockResponse().setHeader(CONTENT_TYPE, contentType.toString()).setBody(body.toJson())
             .setResponseCode(httpStatus.value())
     )
 
