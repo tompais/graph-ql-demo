@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.LOWER_CAMEL_CASE
 import com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
 import com.fasterxml.jackson.databind.SerializationFeature.WRITE_ENUMS_USING_TO_STRING
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,7 +21,6 @@ class MapperConfig {
     @Bean
     @Primary
     fun objectMapper(): ObjectMapper = jacksonMapperBuilder()
-        .addModule(JavaTimeModule())
         .findAndAddModules()
         .serializationInclusion(NON_NULL)
         .serializationInclusion(NON_EMPTY)
