@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature.READ_ENUMS_USING_TO
 import com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.LOWER_CAMEL_CASE
+import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
 import com.fasterxml.jackson.databind.SerializationFeature.WRITE_ENUMS_USING_TO_STRING
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
@@ -27,6 +28,7 @@ class MapperConfig {
         .enable(WRITE_ENUMS_USING_TO_STRING)
         .enable(READ_ENUMS_USING_TO_STRING)
         .enable(ACCEPT_CASE_INSENSITIVE_ENUMS)
+        .enable(INDENT_OUTPUT)
         .disable(WRITE_DATES_AS_TIMESTAMPS)
         .disable(FAIL_ON_UNKNOWN_PROPERTIES)
         .defaultTimeZone(TimeZone.getTimeZone(UTC))

@@ -33,7 +33,9 @@ class QuoteService(
 
     private fun getQuoteClientByType(type: Quote.Type): IQuoteClient = quoteClientMap.getValue(type)
 
-    override suspend fun getQuoteByType(type: Quote.Type): Quote = getQuoteClientByType(type).getRandomQuote()
+    override suspend fun getQuoteByType(type: Quote.Type): Quote = withContext(ioDispatcher) {
+        getQuoteClientByType(type).getRandomQuote()
+    }
 
     override fun getQuotesByType(type: Quote.Type, limit: UInt): Flow<Quote> =
         getQuoteClientByType(type).getQuotes(limit).flowOn(ioDispatcher)

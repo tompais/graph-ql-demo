@@ -1,11 +1,11 @@
 package com.example.graphqldemo.graphql.instrumentations
 
+import com.example.graphqldemo.graphql.instrumentations.context.RequestLoggingInstrumentationContext
 import com.example.graphqldemo.utils.delegators.LoggerDelegate
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.ExecutionResult
 import graphql.execution.instrumentation.InstrumentationContext
 import graphql.execution.instrumentation.SimpleInstrumentation
-import graphql.execution.instrumentation.SimpleInstrumentationContext
 import graphql.execution.instrumentation.parameters.InstrumentationExecutionParameters
 import org.springframework.stereotype.Component
 
@@ -32,22 +32,6 @@ class RequestLoggingInstrumentation(private val mapper: ObjectMapper) : SimpleIn
             }
         }
 
-        return object : SimpleInstrumentationContext<ExecutionResult>() {
-            override fun onCompleted(executionResult: ExecutionResult, t: Throwable?) {
-                if (isInfoEnabled) {
-                    val endMillis = System.currentTimeMillis()
-
-                    if (t != null) {
-                        logger.info("GraphQL execution {} failed: {}", executionId, t.message, t)
-                    } else {
-                        val resultMap = executionResult.toSpecification()
-                        val resultJSON = mapper.writeValueAsString(resultMap).replace("\n", "\\n")
-
-                        logger.info("[{}] completed in {}ms", executionId, endMillis - startMillis)
-                        logger.info("[{}] result: {}", executionId, resultJSON)
-                    }
-                }
-            }
-        }
+        return RequestLoggingInstrumentationContext(startMillis, executionId, mapper)
     }
 }
