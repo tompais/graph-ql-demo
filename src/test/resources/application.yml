@@ -2,7 +2,8 @@ spring:
   profiles:
     active: test
 graphql:
-  packages: "com.example.graphqldemo.graphql"
+  packages:
+    - "com.example.graphqldemo.graphql"
 server:
   error:
     include-exception: true

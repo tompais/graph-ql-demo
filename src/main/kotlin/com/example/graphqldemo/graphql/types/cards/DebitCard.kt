@@ -1,6 +1,6 @@
 package com.example.graphqldemo.graphql.types.cards
 
-import com.example.graphqldemo.graphql.types.cards.Card.CardType.DEBIT
+import com.example.graphqldemo.graphql.types.cards.Card.Type.DEBIT
 import java.math.BigDecimal
 import java.time.LocalDate
 
