@@ -17,22 +17,26 @@ class RequestLoggingInstrumentationContext(
     }
 
     override fun onCompleted(executionResult: ExecutionResult, t: Throwable?) {
-        if (logger.isInfoEnabled) {
-            val endMillis = System.currentTimeMillis()
+        System.currentTimeMillis().also { endMillis ->
+            if (logger.isInfoEnabled) {
+                if (t != null) {
+                    logException(t)
+                } else {
+                    logEndExecution(endMillis)
 
-            if (t != null) {
-                logger.info("GraphQL execution {} failed: {}", executionId, t.message, t)
-            } else {
-                val resultMap = executionResult.toSpecification()
-                val resultJSON = mapper.writeValueAsString(resultMap)
-
-                logger.info(
-                    "[{}] completed in {}ms",
-                    executionId,
-                    endMillis - startMillis
-                )
-                logger.info("[{}] result: {}", executionId, resultJSON)
+                    mapper.writeValueAsString(executionResult.toSpecification()).also(::logResult)
+                }
             }
         }
     }
+
+    private fun logException(t: Throwable) = logger.info("GraphQL execution {} failed: {}", executionId, t.message, t)
+
+    private fun logResult(resultJSON: String?) = logger.info("[{}] result: {}", executionId, resultJSON)
+
+    private fun logEndExecution(endMillis: Long) = logger.info(
+        "[{}] completed in {}ms",
+        executionId,
+        endMillis - startMillis
+    )
 }

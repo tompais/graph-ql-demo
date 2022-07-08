@@ -4,6 +4,7 @@ import com.example.graphqldemo.graphql.instrumentations.context.RequestLoggingIn
 import com.example.graphqldemo.utils.delegators.LoggerDelegate
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.ExecutionResult
+import graphql.execution.ExecutionId
 import graphql.execution.instrumentation.InstrumentationContext
 import graphql.execution.instrumentation.SimpleInstrumentation
 import graphql.execution.instrumentation.parameters.InstrumentationExecutionParameters
@@ -15,23 +16,33 @@ class RequestLoggingInstrumentation(private val mapper: ObjectMapper) : SimpleIn
         private val logger by LoggerDelegate()
     }
 
-    override fun beginExecution(parameters: InstrumentationExecutionParameters): InstrumentationContext<ExecutionResult> {
-        val startMillis = System.currentTimeMillis()
-        val executionId = parameters.executionInput.executionId
+    override fun beginExecution(parameters: InstrumentationExecutionParameters): InstrumentationContext<ExecutionResult> =
+        System.currentTimeMillis().let { startMillis ->
+            if (logger.isInfoEnabled) {
+                parameters.executionInput.executionId.let { executionId ->
+                    logStartExecution(executionId).also {
+                        logQuery(executionId, parameters.query).also {
+                            logVariables(parameters.variables, executionId)
+                        }
+                    }
 
-        val isInfoEnabled = logger.isInfoEnabled
-        if (isInfoEnabled) {
-            logger.info("GraphQL execution {} started", executionId)
-
-            val query = parameters.query
-            logger.info("[{}] query: {}", executionId, query)
-
-            val variables = parameters.variables
-            if (variables != null && variables.isNotEmpty()) {
-                logger.info("[{}] variables: {}", executionId, variables)
+                    RequestLoggingInstrumentationContext(startMillis, executionId, mapper)
+                }
+            } else {
+                super.beginExecution(parameters)
             }
         }
 
-        return RequestLoggingInstrumentationContext(startMillis, executionId, mapper)
+    private fun logStartExecution(executionId: ExecutionId?) = logger.info("GraphQL execution {} started", executionId)
+
+    private fun logVariables(
+        variables: MutableMap<String, Any>,
+        executionId: ExecutionId?
+    ) {
+        if (variables.isNotEmpty()) {
+            logger.info("[{}] variables: {}", executionId, variables)
+        }
     }
+
+    private fun logQuery(executionId: ExecutionId?, query: String?) = logger.info("[{}] query: {}", executionId, query)
 }

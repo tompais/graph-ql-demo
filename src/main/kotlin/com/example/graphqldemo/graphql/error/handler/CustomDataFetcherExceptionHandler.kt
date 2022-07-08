@@ -12,7 +12,6 @@ class CustomDataFetcherExceptionHandler : SimpleDataFetcherExceptionHandler() {
         private val logger by LoggerDelegate()
     }
 
-    override fun logException(error: ExceptionWhileDataFetching?, exception: Throwable?) {
+    override fun logException(error: ExceptionWhileDataFetching?, exception: Throwable?) =
         logger.error(error?.message, exception)
-    }
 }
