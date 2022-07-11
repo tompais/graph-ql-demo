@@ -2,18 +2,21 @@ package com.example.graphqldemo.graphql.types.dashboard.cards
 
 import com.expediagroup.graphql.generator.annotations.GraphQLName
 import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id
 import com.fasterxml.jackson.annotation.JsonValue
 import java.time.LocalDate
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    use = Id.NAME,
+    include = As.EXISTING_PROPERTY,
     property = "type"
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(value = DebitCard::class, name = "debitCard"),
-    JsonSubTypes.Type(value = CreditCard::class, name = "creditCard")
+    Type(value = DebitCard::class, name = "debitCard"),
+    Type(value = CreditCard::class, name = "creditCard")
 )
 abstract class Card(
     val type: Type,
