@@ -37,7 +37,7 @@ class RequestLoggingInstrumentation(private val mapper: ObjectMapper) : SimpleIn
     private fun logStartExecution(executionId: ExecutionId?) = logger.info("GraphQL execution {} started", executionId)
 
     private fun logVariables(
-        variables: MutableMap<String, Any>,
+        variables: Map<String, Any>,
         executionId: ExecutionId?
     ) {
         if (variables.isNotEmpty()) {
