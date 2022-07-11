@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 class RequestLoggingInstrumentation(private val mapper: ObjectMapper) : SimpleInstrumentation() {
     private companion object {
+        @JvmStatic
         private val logger by LoggerDelegator()
     }
 
