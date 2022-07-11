@@ -6,7 +6,7 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.companionObject
 
-class LoggerDelegate<in R : Any> : ReadOnlyProperty<R, Logger> {
+class LoggerDelegator<in R : Any> : ReadOnlyProperty<R, Logger> {
     override fun getValue(thisRef: R, property: KProperty<*>): Logger = getLogger(getClassForLogging(thisRef.javaClass))
 
     private fun <T : Any> getClassForLogging(javaClass: Class<T>): Class<*> = javaClass.enclosingClass?.takeIf {

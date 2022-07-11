@@ -1,6 +1,6 @@
 package com.example.graphqldemo.graphql.instrumentations.context
 
-import com.example.graphqldemo.utils.delegators.LoggerDelegate
+import com.example.graphqldemo.utils.delegators.LoggerDelegator
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.ExecutionResult
 import graphql.execution.ExecutionId
@@ -13,7 +13,7 @@ class RequestLoggingInstrumentationContext(
 ) : SimpleInstrumentationContext<ExecutionResult>() {
     private companion object {
         @JvmStatic
-        private val logger by LoggerDelegate()
+        private val logger by LoggerDelegator()
     }
 
     override fun onCompleted(executionResult: ExecutionResult, t: Throwable?) {

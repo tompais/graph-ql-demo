@@ -1,7 +1,7 @@
 package com.example.graphqldemo.graphql.instrumentations
 
 import com.example.graphqldemo.graphql.instrumentations.context.RequestLoggingInstrumentationContext
-import com.example.graphqldemo.utils.delegators.LoggerDelegate
+import com.example.graphqldemo.utils.delegators.LoggerDelegator
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.ExecutionResult
 import graphql.execution.ExecutionId
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 class RequestLoggingInstrumentation(private val mapper: ObjectMapper) : SimpleInstrumentation() {
     private companion object {
-        private val logger by LoggerDelegate()
+        private val logger by LoggerDelegator()
     }
 
     override fun beginExecution(parameters: InstrumentationExecutionParameters): InstrumentationContext<ExecutionResult> =
