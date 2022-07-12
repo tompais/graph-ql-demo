@@ -18,20 +18,18 @@ class RequestLoggingInstrumentation(private val mapper: ObjectMapper) : SimpleIn
     }
 
     override fun beginExecution(parameters: InstrumentationExecutionParameters): InstrumentationContext<ExecutionResult> =
-        System.currentTimeMillis().let { startMillis ->
-            if (logger.isInfoEnabled) {
-                parameters.executionInput.executionId.let { executionId ->
-                    logStartExecution(executionId).also {
-                        logQuery(executionId, parameters.query).also {
-                            logVariables(parameters.variables, executionId)
-                        }
+        if (logger.isInfoEnabled) {
+            parameters.executionInput.executionId.let { executionId ->
+                logStartExecution(executionId).also {
+                    logQuery(executionId, parameters.query).also {
+                        logVariables(parameters.variables, executionId)
                     }
-
-                    RequestLoggingInstrumentationContext(startMillis, executionId, mapper)
                 }
-            } else {
-                super.beginExecution(parameters)
+
+                RequestLoggingInstrumentationContext(executionId, mapper)
             }
+        } else {
+            super.beginExecution(parameters)
         }
 
     private fun logStartExecution(executionId: ExecutionId?) = logger.info("GraphQL execution {} started", executionId)

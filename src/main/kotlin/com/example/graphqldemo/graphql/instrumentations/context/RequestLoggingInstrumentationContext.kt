@@ -7,7 +7,6 @@ import graphql.execution.ExecutionId
 import graphql.execution.instrumentation.SimpleInstrumentationContext
 
 class RequestLoggingInstrumentationContext(
-    private val startMillis: Long,
     private val executionId: ExecutionId,
     private val mapper: ObjectMapper
 ) : SimpleInstrumentationContext<ExecutionResult>() {
@@ -17,15 +16,13 @@ class RequestLoggingInstrumentationContext(
     }
 
     override fun onCompleted(executionResult: ExecutionResult, t: Throwable?) {
-        System.currentTimeMillis().also { endMillis ->
-            if (logger.isInfoEnabled) {
-                if (t != null) {
-                    logException(t)
-                } else {
-                    logEndExecution(endMillis)
+        if (logger.isInfoEnabled) {
+            if (t != null) {
+                logException(t)
+            } else {
+                logEndExecution()
 
-                    mapper.writeValueAsString(executionResult.toSpecification()).also(::logResult)
-                }
+                mapper.writeValueAsString(executionResult.toSpecification()).also(::logResult)
             }
         }
     }
@@ -34,9 +31,5 @@ class RequestLoggingInstrumentationContext(
 
     private fun logResult(resultJSON: String?) = logger.info("[{}] result: {}", executionId, resultJSON)
 
-    private fun logEndExecution(endMillis: Long) = logger.info(
-        "[{}] completed in {}ms",
-        executionId,
-        endMillis - startMillis
-    )
+    private fun logEndExecution() = logger.info("[{}] completed", executionId)
 }

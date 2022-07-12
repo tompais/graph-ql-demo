@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: test
+  cache:
+    cache-names: quote
 graphql:
   packages:
     - "com.example.graphqldemo.graphql"
@@ -12,6 +14,9 @@ server:
     include-binding-errors: always
   port: 8081
 clients:
+  cache:
+    quote:
+      name: quote
   rest:
     quote:
       anime:
@@ -29,3 +34,5 @@ clients:
 logging:
   level:
     reactor.netty.http.client: DEBUG
+    org.springframework.cache: TRACE
+    com.github.benmanes.caffeine: TRACE

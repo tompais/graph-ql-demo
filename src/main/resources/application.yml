@@ -1,3 +1,6 @@
+spring:
+  cache:
+    cache-names: quote
 graphql:
   packages:
     - "com.example.graphqldemo.graphql"
@@ -26,6 +29,9 @@ server:
     include-stacktrace: always
     include-binding-errors: always
 clients:
+  cache:
+    quote:
+      name: quote
   rest:
     quote:
       anime:
@@ -43,3 +49,5 @@ clients:
 logging:
   level:
     reactor.netty.http.client: DEBUG
+    org.springframework.cache: TRACE
+    com.github.benmanes.caffeine: TRACE

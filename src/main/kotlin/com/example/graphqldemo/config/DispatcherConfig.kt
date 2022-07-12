@@ -9,4 +9,7 @@ import org.springframework.context.annotation.Configuration
 class DispatcherConfig {
     @Bean(destroyMethod = "")
     fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Bean(destroyMethod = "")
+    fun unconfinedDispatcher(): CoroutineDispatcher = Dispatchers.Unconfined
 }

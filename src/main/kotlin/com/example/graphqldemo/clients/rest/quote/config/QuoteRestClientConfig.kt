@@ -1,8 +1,8 @@
 package com.example.graphqldemo.clients.rest.quote.config
 
 import com.example.graphqldemo.clients.rest.config.BaseWebClientConfig
-import com.example.graphqldemo.clients.rest.quote.BaseQuoteClient
-import com.example.graphqldemo.clients.rest.quote.interfaces.IQuoteClient
+import com.example.graphqldemo.clients.rest.quote.BaseQuoteRestClient
+import com.example.graphqldemo.clients.rest.quote.interfaces.IQuoteRestClient
 import com.example.graphqldemo.graphql.types.quote.Quote
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Value
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
-class QuoteClientConfig(
+class QuoteRestClientConfig(
     private val mapper: ObjectMapper
 ) : BaseWebClientConfig() {
     @Bean
@@ -27,7 +27,7 @@ class QuoteClientConfig(
         buildWebClient(baseUrl, mapper)
 
     @Bean
-    fun quoteClientMap(
-        quoteClients: List<BaseQuoteClient>
-    ): Map<Quote.Type, IQuoteClient> = quoteClients.associateBy(BaseQuoteClient::type)
+    fun quoteRestClientMap(
+        quoteRestClients: List<BaseQuoteRestClient>
+    ): Map<Quote.Type, IQuoteRestClient> = quoteRestClients.associateBy(BaseQuoteRestClient::type)
 }
