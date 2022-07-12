@@ -14,7 +14,7 @@ class QuoteCacheClient(
     cacheManager: CacheManager,
     @Value("\${clients.cache.quote.name}") name: String
 ) : BaseCacheClient<Quote>(cacheManager, name), IQuoteCacheClient {
-    private companion object {
+    private companion object KeyPrefix {
         private const val QUOTES = "quotes"
         private const val QUOTE = "quote"
     }
