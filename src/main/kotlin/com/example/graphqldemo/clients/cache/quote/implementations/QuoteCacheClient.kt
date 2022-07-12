@@ -5,15 +5,11 @@ import com.example.graphqldemo.clients.cache.quote.interfaces.IQuoteCacheClient
 import com.example.graphqldemo.graphql.types.quote.Quote
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.cache.CacheManager
+import org.springframework.cache.Cache
 import org.springframework.stereotype.Component
 
 @Component
-class QuoteCacheClient(
-    cacheManager: CacheManager,
-    @Value("\${clients.cache.quote.name}") name: String
-) : BaseCacheClient<Quote>(cacheManager, name), IQuoteCacheClient {
+class QuoteCacheClient(quoteCache: Cache) : BaseCacheClient<Quote>(quoteCache), IQuoteCacheClient {
     private companion object KeyPrefix {
         private const val QUOTES = "quotes"
         private const val QUOTE = "quote"

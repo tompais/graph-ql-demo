@@ -2,6 +2,7 @@ package com.example.graphqldemo.clients.cache.config
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.cache.caffeine.CaffeineCacheManager
@@ -23,4 +24,8 @@ class CacheConfig {
         setCaffeine(caffeine)
         isAllowNullValues = false
     }
+
+    @Bean
+    fun quoteCache(cacheManager: CacheManager, @Value("\${clients.cache.quote.name}") name: String): Cache =
+        cacheManager.getCache(name)!!
 }
