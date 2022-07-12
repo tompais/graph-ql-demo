@@ -47,7 +47,7 @@ class QuoteService(
     private suspend fun getRandomQuoteAndPutIntoCache(): Quote =
         withContext(ioDispatcher) {
             getRandomQuoteClient().getRandomQuote().also { quote ->
-                quoteCacheClient.cacheQuote(quote)
+                cacheQuote(quote)
             }
         }
 
@@ -63,8 +63,13 @@ class QuoteService(
     private suspend fun getQuoteByTypeAndPutIntoCache(type: Quote.Type): Quote =
         withContext(ioDispatcher) {
             getQuoteClientByType(type).getRandomQuote()
-                .also { quote -> quoteCacheClient.cacheQuote(quote) }
+                .also { quote -> cacheQuoteByType(type, quote) }
         }
+
+    private suspend fun cacheQuoteByType(type: Quote.Type, quote: Quote) =
+        quoteCacheClient.cacheQuoteByType(type, quote)
+
+    private suspend fun cacheQuote(quote: Quote) = quoteCacheClient.cacheQuote(quote)
 
     private suspend fun getQuoteByTypeFromCache(type: Quote.Type): Quote? =
         quoteCacheClient.getQuoteByTypeFromCacheAsync(type).await()

@@ -10,4 +10,5 @@ interface IQuoteCacheClient {
     suspend fun cacheQuote(quote: Quote)
     suspend fun getQuoteFromCacheAsync(): Deferred<Quote?>
     suspend fun getQuoteByTypeFromCacheAsync(type: Quote.Type): Deferred<Quote?>
+    suspend fun cacheQuoteByType(type: Quote.Type, quote: Quote)
 }

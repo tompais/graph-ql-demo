@@ -25,4 +25,6 @@ class QuoteCacheClient(
     override suspend fun getQuoteFromCacheAsync(): Deferred<Quote?> = getFromCacheAsync(QUOTE)
     override suspend fun getQuoteByTypeFromCacheAsync(type: Quote.Type): Deferred<Quote?> =
         getFromCacheAsync("$QUOTE-$type")
+
+    override suspend fun cacheQuoteByType(type: Quote.Type, quote: Quote) = cachePut("$QUOTE-$type", quote)
 }
