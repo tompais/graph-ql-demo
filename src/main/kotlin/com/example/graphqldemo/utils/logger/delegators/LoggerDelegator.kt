@@ -1,4 +1,4 @@
-package com.example.graphqldemo.utils.delegators
+package com.example.graphqldemo.utils.logger.delegators
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger

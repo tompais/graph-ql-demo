@@ -1,4 +1,4 @@
-package com.example.graphqldemo.utils
+package com.example.graphqldemo.utils.flow
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList

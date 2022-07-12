@@ -1,7 +1,7 @@
 package com.example.graphqldemo.graphql.instrumentations
 
 import com.example.graphqldemo.graphql.instrumentations.context.RequestLoggingInstrumentationContext
-import com.example.graphqldemo.utils.delegators.LoggerDelegator
+import com.example.graphqldemo.utils.logger.delegators.LoggerDelegator
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.ExecutionResult
 import graphql.execution.ExecutionId

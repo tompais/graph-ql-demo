@@ -4,7 +4,7 @@ import com.example.graphqldemo.clients.cache.quote.interfaces.IQuoteCacheClient
 import com.example.graphqldemo.clients.rest.quote.interfaces.IQuoteRestClient
 import com.example.graphqldemo.graphql.types.quote.Quote
 import com.example.graphqldemo.services.interfaces.IQuoteService
-import com.example.graphqldemo.utils.FlowUtils.toShuffledList
+import com.example.graphqldemo.utils.flow.FlowUtils.toShuffledList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
