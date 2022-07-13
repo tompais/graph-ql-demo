@@ -38,5 +38,5 @@ abstract class BaseCacheClient<T : Any>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun getValue(key: String) = cache.get(key)?.get() as? T
+    private fun getValue(key: String): T? = cache.get(key)?.get() as? T
 }
