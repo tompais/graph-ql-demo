@@ -1,22 +1,19 @@
 package com.example.graphqldemo.graphql.instrumentations.context
 
-import com.example.graphqldemo.utils.logger.delegators.LoggerDelegator
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.ExecutionResult
 import graphql.execution.ExecutionId
 import graphql.execution.instrumentation.SimpleInstrumentationContext
+import org.apache.logging.log4j.kotlin.logger
 
 class RequestLoggingInstrumentationContext(
     private val executionId: ExecutionId,
     private val mapper: ObjectMapper
 ) : SimpleInstrumentationContext<ExecutionResult>() {
-    private companion object {
-        @JvmStatic
-        private val logger by LoggerDelegator()
-    }
+    private val logger = logger()
 
     override fun onCompleted(executionResult: ExecutionResult, t: Throwable?) {
-        if (logger.isInfoEnabled) {
+        if (logger.delegate.isInfoEnabled) {
             if (t != null) {
                 logException(t)
             } else {
@@ -27,9 +24,9 @@ class RequestLoggingInstrumentationContext(
         }
     }
 
-    private fun logException(t: Throwable) = logger.info("GraphQL execution {} failed: {}", executionId, t.message, t)
+    private fun logException(t: Throwable) = logger.info("GraphQL execution $executionId failed: $t.message", t)
 
-    private fun logResult(resultJSON: String?) = logger.info("[{}] result: {}", executionId, resultJSON)
+    private fun logResult(resultJSON: String?) = logger.info("[$executionId] result: $resultJSON")
 
-    private fun logEndExecution() = logger.info("[{}] completed", executionId)
+    private fun logEndExecution() = logger.info("[$executionId] completed")
 }

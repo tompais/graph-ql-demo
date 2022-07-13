@@ -17,30 +17,26 @@ abstract class BaseCacheClient<T : Any>(
     @Autowired
     private lateinit var unconfinedDispatcher: CoroutineDispatcher
 
-    protected suspend fun cachePut(key: String, values: List<T>) {
+    protected suspend fun cachePut(key: String, any: Any) {
         supervisorScope {
             launch(unconfinedDispatcher, UNDISPATCHED) {
-                cache.putIfAbsent(key, values)
-            }
-        }
-    }
-
-    protected suspend fun cachePut(key: String, value: T) {
-        supervisorScope {
-            launch(unconfinedDispatcher, UNDISPATCHED) {
-                cache.putIfAbsent(key, value)
+                cache.putIfAbsent(key, any)
             }
         }
     }
 
     @Suppress("UNCHECKED_CAST")
     protected fun getFlowFromCache(key: String): Flow<T> =
-        (cache.get(key, List::class.java) ?: emptyList<Any>()).asFlow() as Flow<T>
+        getValues(key).asFlow() as Flow<T>
 
-    @Suppress("UNCHECKED_CAST")
+    private fun getValues(key: String): List<Any?> = cache.get(key, List::class.java) ?: emptyList<Any>()
+
     protected suspend fun getFromCacheAsync(key: String): Deferred<T?> = supervisorScope {
         async {
-            cache.get(key)?.get() as? T
+            getValue(key)
         }
     }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getValue(key: String) = cache.get(key)?.get() as? T
 }
