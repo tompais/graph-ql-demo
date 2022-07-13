@@ -16,7 +16,7 @@ class QuoteCacheClient(quoteCache: Cache) : BaseCacheClient<Quote>(quoteCache), 
     }
 
     override suspend fun cacheQuotes(quotes: List<Quote>) = cachePut(QUOTES, quotes)
-    override fun getQuotesFromCache(): Flow<Quote>? = getFlowFromCache(QUOTES)
+    override fun getQuotesFromCache(): Flow<Quote> = getFlowFromCache(QUOTES)
     override suspend fun cacheQuote(quote: Quote) = cachePut(QUOTE, quote)
     override suspend fun getQuoteFromCacheAsync(): Deferred<Quote?> = getFromCacheAsync(QUOTE)
     override suspend fun getQuoteByTypeFromCacheAsync(type: Quote.Type): Deferred<Quote?> =

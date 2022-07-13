@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
@@ -27,20 +28,19 @@ class QuoteService(
 
     @FlowPreview
     override fun getQuotes(limit: UInt): Flow<Quote> =
-        (getQuotesFromCache() ?: getQuotesAndPutIntoCache(limit)).take(limit.toInt())
+        getQuotesFromCache().onEmpty { emitAll(getQuotesAndPutIntoCache(limit)) }.take(limit.toInt())
 
     @FlowPreview
     private fun getQuotesAndPutIntoCache(limit: UInt): Flow<Quote> =
         flow {
             getQuotesOfAllTypes(limit).toShuffledList()
-                .also { quotes -> cacheQuotes(quotes).also { emitAll(quotes.asFlow()) } }
+                .also { quotes -> cacheQuotes(quotes) }
+                .also { quotes -> emitAll(quotes.asFlow()) }
         }
 
-    private suspend fun cacheQuotes(quotes: List<Quote>) {
-        quoteCacheClient.cacheQuotes(quotes)
-    }
+    private suspend fun cacheQuotes(quotes: List<Quote>) = quoteCacheClient.cacheQuotes(quotes)
 
-    private fun getQuotesFromCache(): Flow<Quote>? = quoteCacheClient.getQuotesFromCache()
+    private fun getQuotesFromCache(): Flow<Quote> = quoteCacheClient.getQuotesFromCache()
 
     override suspend fun getRandomQuote(): Quote = getRandomQuoteFromCache() ?: getRandomQuoteAndPutIntoCache()
 

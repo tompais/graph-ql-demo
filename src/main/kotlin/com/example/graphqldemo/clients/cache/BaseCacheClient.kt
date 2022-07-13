@@ -34,8 +34,8 @@ abstract class BaseCacheClient<T : Any>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    protected fun getFlowFromCache(key: String): Flow<T>? =
-        (cache.get(key, List::class.java)?.asFlow()) as? Flow<T>
+    protected fun getFlowFromCache(key: String): Flow<T> =
+        (cache.get(key, List::class.java) ?: emptyList<Any>()).asFlow() as Flow<T>
 
     @Suppress("UNCHECKED_CAST")
     protected suspend fun getFromCacheAsync(key: String): Deferred<T?> = supervisorScope {
